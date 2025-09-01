@@ -10,6 +10,6 @@ It serves as a starting point for building and experimenting with modern web app
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone (https://github.com/nursudevar/react-app.git)
+cd react-app
 npm install
