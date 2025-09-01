@@ -42,10 +42,11 @@ const TodoList = () => {
   };
 
   return <>
-  <h1>What's the Plan?</h1>
+  <h1>Things To Do</h1>
+  <p>An easy way to track your tasks and manage your day.</p>
   <TodoForm onSubmit={addTodo}/>
   <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo}/>
   </>
 };
 
-export default TodoList
+export default TodoList;

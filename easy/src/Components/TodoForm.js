@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { AiOutlinePlus } from "react-icons/ai";
 
 const TodoForm = (props) => {
 
@@ -31,16 +32,17 @@ const TodoForm = (props) => {
       <>
       <input placeholder="Update your item" value={input} onChange={handleChange} name="text" ref={inputRef}
       className="todo-input edit"/>
-      <button onClick={handleSubmit} className="todo-button edit">Update</button>
+      <button onClick={handleSubmit} className="todo-button edit">UPDATE</button>
       </>
      
      )
      :
       (
         <>
-        <input placeholder="Add a Todo" value={input} onChange={handleChange} name="text" ref={inputRef} className="todo-input"/>
-        <button onClick={handleSubmit} className="todo-button">Add Todo</button>
-
+        <input placeholder="Add a New Task" value={input} onChange={handleChange} name="text" ref={inputRef} className="todo-input"/>
+        <button onClick={handleSubmit} className="todo-button">
+            <AiOutlinePlus className="add-icon"/> ADD
+        </button>
         </>
 
       )}
