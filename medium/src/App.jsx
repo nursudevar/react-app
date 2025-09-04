@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import './App.css';
 import MovieCard from './components/MovieCard';
-
+import Home from './pages/home';
 
 function App() {
+
+  const movieNumber = 1;
 
 
   return (
    <>
-   <MovieCard movie={{title:"Tims's Film", release_date:"2001"}}/>
+     <Home />
    </>
-  )
+  );
 }
 
-export default App
+export default App;
