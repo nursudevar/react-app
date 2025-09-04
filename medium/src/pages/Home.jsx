@@ -4,6 +4,7 @@ import { useState} from "react";
 
 function Home(){
 
+    const [searchQuery, setSearchQuery] = useState("");
 
     const movies= [
         {id: 1, title: "John Wick", release_date: "2020"},
@@ -16,23 +17,38 @@ function Home(){
         {id: 8, title: "The Dark Knight Rises", release_date: "2012"}, 
 
     ]
-    const handleSearch = () => {
-
-
+    const handleSearch = (e) => {
+        e.preventDefault(); //to stop the page refresh everytime we clicked search button
+        alert(searchQuery);
     }
     return (
     <div className="home">
 
         <form onSubmit={handleSearch} className="search-form">
 
-            <input type="text" placeholder="Search for Movies" className="search-input"/>
+            <input
+                type="text" 
+                placeholder="Search for Movies" 
+                className="search-input" 
+                value={searchQuery} 
+                onChange= {(e) => 
+                    {
+                        setSearchQuery(e.target.value);
+                        console.log(e.target.value);
+                    }}
+
+               
+               
+            />
+
             <button type="submit" className="search-btn">Search</button>
         </form>
 
         <div className="movies-grid">
             {movies.map((movie) => 
-                <MovieCard movie = {movie} key={movie.id}/>)
-            }
+                movie.title.toLowerCase().startsWith(searchQuery.trim().toLowerCase()) && (
+                <MovieCard movie = {movie} key={movie.id}/> )
+            )}
         </div>
     </div>
     );
