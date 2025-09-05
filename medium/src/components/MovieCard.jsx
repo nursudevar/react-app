@@ -1,4 +1,5 @@
 import { FaRegHeart } from "react-icons/fa";
+import '../styles/MovieCard.scss';
 
 function MovieCard({movie}){
 

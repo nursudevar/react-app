@@ -1,0 +1,10 @@
+/* ---- App layout ---- */
+$surface: #141a2a;
+
+.main-content {
+  padding: 24px 0 40px;
+}
+
+@media (max-width: 560px) {
+  .main-content { padding-top: 12px; }
+}

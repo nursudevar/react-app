@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './App.css';
+import './styles/App.scss';
 import MovieCard from './components/MovieCard';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';

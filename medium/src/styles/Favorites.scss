@@ -1,0 +1,13 @@
+/* ---- Favorites empty state ---- */
+$muted: #8b97b3;
+$text: #e6eaf5;
+
+.favorites-empty {
+  border: 1px dashed rgba(255,255,255,.18);
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  color: $muted;
+  h2 { margin: 0 0 8px; color: $text; font-weight: 800; }
+  p { margin: 0; }
+}
