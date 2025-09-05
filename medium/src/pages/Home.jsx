@@ -4,7 +4,7 @@ import { useState} from "react";
 
 function Home(){
 
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState(""); //to persist to function properly we use it in this way. If we didn't use useState, the input value would not be retained between renders. The value would be reset to the initial state on every re-render.
 
     const movies= [
         {id: 1, title: "John Wick", release_date: "2020"},
