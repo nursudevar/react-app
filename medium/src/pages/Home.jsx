@@ -1,27 +1,44 @@
 import MovieCard from "../components/MovieCard";
-import { useState} from "react";
+import { useState, useEffect} from "react";
+import { searchMovies, getPopularMovies} from "../services/api";
 import '../styles/Home.scss';
 
 
 function Home(){
 
-    const [searchQuery, setSearchQuery] = useState(""); //to persist to function properly we use it in this way. If we didn't use useState, the input value would not be retained between renders. The value would be reset to the initial state on every re-render.
+    //to persist to function properly we use it in this way. If we didn't use useState, the input value would not be retained between renders. The value would be reset to the initial state on every re-render.
+    const [searchQuery, setSearchQuery] = useState(""); 
+    const [movies, setMovies] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true); 
 
-    const movies= [
-        {id: 1, title: "John Wick", release_date: "2020"},
-        {id: 2, title: "Harry Potter", release_date: "2012"},
-        {id: 3, title: "Inception", release_date: "2010"},
-        {id: 4, title: "The Dark Knight", release_date: "2008"},
-        {id: 5, title: "Pulp Fiction", release_date: "1994"},
-        {id: 6, title: "The Shawshank Redemption", release_date: "1994"},
-        {id: 7, title: "The Godfather", release_date: "1972"},
-        {id: 8, title: "The Dark Knight Rises", release_date: "2012"}, 
 
-    ]
+    useEffect( () => {
+
+        const loadPopularMovies = async () => {
+
+            try{
+                const popularMovies = await getPopularMovies();
+                setMovies(popularMovies);
+            } catch(err) {
+                console.log(err)
+                setError("Failed to load movies");
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+
+        loadPopularMovies();
+
+    }, [])
+
+
     const handleSearch = (e) => {
         e.preventDefault(); //to stop the page refresh everytime we clicked search button
         alert(searchQuery);
-    }
+    };
+
     return (
     <div className="home">
 
@@ -45,12 +62,25 @@ function Home(){
             <button type="submit" className="search-btn">Search</button>
         </form>
 
-        <div className="movies-grid">
-            {movies.map((movie) => 
-                movie.title.toLowerCase().startsWith(searchQuery.trim().toLowerCase()) && (
-                <MovieCard movie = {movie} key={movie.id}/> )
-            )}
-        </div>
+        {error &&
+            <div className="error-message">
+                {error}
+            </div>
+        }
+
+
+        {loading ? 
+        <div className="loading">Loading</div> 
+                 : 
+                 
+            <div className="movies-grid">
+                {movies.map((movie) => 
+                    movie.title.toLowerCase().startsWith(searchQuery.trim().toLowerCase()) && (
+                    <MovieCard movie = {movie} key={movie.id}/> )
+                )}
+            </div>
+        };
+       
     </div>
     );
 }
