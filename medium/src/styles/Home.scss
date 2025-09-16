@@ -42,6 +42,8 @@ $surface-2: #1a2134;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 18px;
+  padding: 0 18px;
+
   @media (min-width: 1200px) {
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   }
