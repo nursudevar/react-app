@@ -50,33 +50,19 @@ Please keep this in mind when running the files.
 
 ## Installation
 Clone the repository and install dependencies:
-#
 git clone https://github.com/nursudevar/react-app.git
-#
 cd react-app
-#
 npm install
 #
-#
-#
 Project 1 (Todo List - CRA)
-#
 cd Todo-List
 npm start
 #
-#
-#
 Project 2 (Movie Explorer - Vite)
-#
 cd Movie-Explorer
 npm run dev
 #
-#
-#
 Project 3 (Movie Explorer Extended - Vite)
-#
-#
-#
 cd Movie-Explorer-Extended
 npm run dev
 
