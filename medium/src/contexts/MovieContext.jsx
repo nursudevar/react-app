@@ -14,7 +14,7 @@ export const useMovieContext = () => useContext(MovieContext)
 //children is reserved component
 //children is anything inside of the component that we rendered
 
-export const movieProvider = ({children})  => {
+export const MovieProvider = ({children})  => {
 
     const [favorites, setFavorites] =  useState([])
 
@@ -50,10 +50,10 @@ export const movieProvider = ({children})  => {
     //Here, if the ID doesn't equal to ID that we want (movieId), It removes them from favorites list.
     //We use filter to strain the elements.
     const removeFromFavorites = (movieId) => {
-        setFavorites(prev => prev.filter(movie => movie.Id !== movieId))
+        setFavorites(prev => prev.filter(movie => movie.id !== movieId))
     }
 
-    const isFavorite = (movideId) => {
+    const isFavorite = (movieId) => {
 
         return favorites.some(movie => movie.id === movieId)
     }
