@@ -10,5 +10,7 @@ It serves as a starting point for building and experimenting with modern web app
 Clone the repository and install dependencies:
 
 git clone https://github.com/nursudevar/react-app.git
+
 cd react-app
+
 npm install
