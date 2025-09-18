@@ -1,7 +1,7 @@
 import { FaRegHeart } from "react-icons/fa";
 import '../styles/MovieCard.scss';
 import { useMovieContext } from "../contexts/MovieContext";
-
+import noImage from "../images/no-image.svg";
 
 function MovieCard({movie}){
 
@@ -17,11 +17,26 @@ function MovieCard({movie}){
     }
 
 
+    const imgPath = movie.poster_path || movie.backdrop_path;
+
+
+    const src = imgPath
+                ? `https://image.tmdb.org/t/p/w500${imgPath}`
+                : noImage;
+
+
     return(
 
         <div className="movie-card">
             <div className="movie-poster">
-                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/>
+                <img 
+                    src={src} 
+                    alt={movie.title}
+                    onError={(e) => {
+                        e.currentTarget.onerror= null; //to prevent loop
+                        e.currentTarget.src= noImage;
+                    }}
+                />
                 <div className="movie-overlay">
                     <button className={`favorite-btn ${favorite ?  "active" : ""}`} onClick={onFavorite}>
                        ♥
