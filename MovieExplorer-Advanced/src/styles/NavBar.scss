@@ -1,0 +1,43 @@
+/* ---- Top navbar ---- */
+$surface: #141a2a;
+$muted: #8b97b3;
+$heading: #f5f7ff;
+
+.navbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 18px;
+  padding: 15px 20px;
+  background: linear-gradient(180deg, rgba(10,13,24,.9), rgba(10,13,24,.55)), $surface;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.navbar-brand {
+  font-weight: 800; 
+  font-size: 20px; 
+  letter-spacing: .2px;
+
+   a { 
+    color: 
+    $heading; 
+    text-decoration: none; 
+    }
+}
+
+.navbar-links {
+  margin-left: auto; 
+  display: flex; 
+  gap: 16px;
+  .nav-link {
+    color: $muted; 
+    text-decoration: none; 
+    font-weight: 600;
+    border-radius: 10px;
+    transition: color .15s, background .15s;
+    &:hover, &.active { color: $heading; background: rgba(255,255,255,.06); }
+  }
+}
+
+@media (max-width: 560px) {
+  .navbar { padding: 12px 14px; }
+}

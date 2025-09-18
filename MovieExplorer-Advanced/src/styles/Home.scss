@@ -1,0 +1,50 @@
+/* ---- Home page (search + grid) ---- */
+$accent: #60a5fa;
+$muted: #8b97b3;
+$text: #e6eaf5;
+$surface-2: #1a2134;
+
+
+.search-form {
+  display: flex; 
+  gap: 10px; 
+  align-items: center;
+  justify-content: center; 
+  margin: 0 20px 20px 20px;
+
+  .search-input {
+    flex: 1 1 auto;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: $surface-2;
+    color: $text;
+    caret-color: $accent;
+    &::placeholder { color: rgba($muted, .9); }
+    &:focus { outline: none; box-shadow: 0 0 0 3px rgba($accent,.35); border-color: transparent; }
+  }
+
+  .search-btn {
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 800;
+    border: 1px solid rgba(255,255,255,.12);
+    background: linear-gradient(135deg, #60a5fa, #22d3ee);
+    color: #0b1020;
+    cursor: pointer;
+    transition: transform .12s ease;
+    &:hover { transform: translateY(-1px); }
+    &:focus { outline: none; box-shadow: 0 0 0 3px rgba($accent,.35); }
+  }
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 18px;
+  padding: 0 18px;
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+}

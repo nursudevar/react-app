@@ -1,0 +1,22 @@
+/* ---- Global reset & theme ---- */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+$bg: #0f1320;
+$surface: #141a2a;
+$surface-2: #1a2134;
+$text: #e6eaf5;
+$muted: #8b97b3;
+$heading: #f5f7ff;
+$accent: #60a5fa;
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: $text;
+  background: radial-gradient(1100px 520px at 15% -10%, #1b2240 0%, rgba(27,34,64,0) 60%) $bg;
+}
+
+/* helpful utilities */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; clip: rect(0 0 0 0); overflow: hidden; white-space: nowrap; }

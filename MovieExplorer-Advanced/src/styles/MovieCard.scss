@@ -1,0 +1,61 @@
+/* ---- Movie card ---- */
+$surface: #141a2a;
+$surface-2: #1a2134;
+$text: #e6eaf5;
+$muted: #8b97b3;
+$accent: #60a5fa;
+
+.movie-card {
+  background: $surface;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  display: flex; flex-direction: column;
+
+  &:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.28); border-color: rgba(255,255,255,.12); }
+}
+
+.movie-poster {
+  position: relative;
+  aspect-ratio: 3/4;
+  background: #0b0f1a;
+  img {
+    width: 100%; height: 100%; display: block; object-fit: cover;
+  }
+
+  .movie-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.6) 88%, rgba(0,0,0,.86) 100%);
+    opacity: 0; transition: opacity .2s ease;
+    display: flex; align-items: flex-start; justify-content: flex-end; padding: 10px;
+  }
+
+  &:hover .movie-overlay { opacity: 1; }
+
+  .favorite-btn {
+    width: 38px; height: 38px;
+    display: grid; place-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(12,16,28,.75);
+    color: #fff; cursor: pointer;
+    transition: transform .15s, background .15s, border-color .15s;
+    &:hover { transform: scale(1.06); background: rgba(12,16,28,.9); }
+    &:focus { outline: none; box-shadow: 0 0 0 3px rgba(#f43f5e,.35); }
+    &.active { color: #ef4444; } // kırmızı (rose-500 civarı)
+  }
+}
+
+.movie-info {
+  padding: 12px 12px 14px;
+  h3 {
+    margin: 0 0 4px;
+    font-size: 16px; font-weight: 800; color: #f5f7ff;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  p {
+    margin: 0; font-size: 13px; color: $muted; font-weight: 600; letter-spacing: .2px;
+  }
+}
