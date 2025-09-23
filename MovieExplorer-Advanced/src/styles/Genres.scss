@@ -74,17 +74,15 @@ $poster-radius: 16px;
     &:hover { color: $text; }
   }
 
-  /* Yatay kaydırıcı */
-  .row-scroller {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(180px, 1fr);
-    gap: 16px;
+  
+   .row-scroller {
+    display: flex;                 
+    gap: 16px;                     
     overflow-x: auto;
     scroll-snap-type: x proximity;
     padding-bottom: 6px;
   }
-
+  
   .row-scroller::-webkit-scrollbar { height: 8px; }
   .row-scroller::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,.12);
