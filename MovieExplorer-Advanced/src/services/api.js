@@ -16,6 +16,7 @@ export const getPopularMovies = async() => {
 };
 
 
+
 export const searchMovies = async(query) => {
     const response = await fetch (
         `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
@@ -24,4 +25,39 @@ export const searchMovies = async(query) => {
     const data = await response.json();
     return data.results;
 
+}
+
+async function get(endpoint, params = {}) {
+  const url = new URL(`${BASE_URL}${endpoint}`);
+  url.searchParams.set("api_key", API_KEY);
+
+  // params varsa ekle
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== "") {
+      url.searchParams.set(k, v);
+    }
+  });
+
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status} ${res.statusText}`);
+  }
+  return res.json();
+}
+
+
+
+export async function getGenres() {
+    const data = await get("/genre/movie/list");
+    return data.genres ?? [];
+}
+
+export async function getMoviesByGenre (genreId, page=1, sort = "popularity.desc"){
+    const data = await get("/discover/movie", {
+        with_genres: genreId,
+        page,
+        sort_by: sort,
+    });
+
+    return data.results ?? [];
 }

@@ -1,0 +1,139 @@
+// src/styles/genremovies.scss
+// Dark, clean, card-grid style
+
+// ---- Theme tokens ----
+$bg: #0f1216;          // page background
+$panel: #151a21;       // card background
+$panel-2: #1b2230;     // subtle ring/hover
+$text: #e8eef6;        // main text
+$text-muted: #9aa7b5;  // subtitles
+$shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+
+$radius-card: 18px;
+$radius-poster: 14px;
+
+.genre-movies-page {
+  background: $bg;
+  min-height: 100vh;
+  padding: 28px 24px;
+
+  .page-title {
+    color: $text;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    margin: 0 0 16px;
+  }
+
+  .breadcrumb {
+    display: flex; gap: 8px; align-items: center;
+    margin: 2px 0 14px;
+    font-size: 14px;
+
+    .crumb { color: $text-muted; text-decoration: none;
+      &:hover { color: $text; }
+    }
+    .crumb-sep { color: $text-muted; }
+    .crumb-current { color: $text; font-weight: 700; }
+  }
+
+  // --- GRID ---
+  .movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+  }
+
+  // --- CARD ---
+  .movie-card {
+    background: transparent; // text block uses bg; poster is the hero
+    border-radius: $radius-card;
+    overflow: visible;
+    transform: translateZ(0); // enable GPU for smoother hover
+    transition: transform .18s ease, box-shadow .18s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    // Poster container
+    .movie-poster {
+      display: block;
+      width: 100%;
+      height: 260px;              // adjust if you want taller posters
+      object-fit: cover;
+      border-radius: $radius-poster;
+      box-shadow: $shadow;
+      background: $panel;         // fallback while loading
+      border: 1px solid rgba(255,255,255,.06);
+
+      // subtle focus ring on hover (like screenshot’s soft glow)
+      &:hover {
+        box-shadow: 0 0 0 2px $panel-2, $shadow;
+      }
+    }
+
+    // Text panel
+    .movie-meta {
+      padding: 10px 2px 0;
+    }
+
+    .movie-title {
+      color: $text;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 8px 0 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .movie-sub {
+      color: $text-muted;
+      font-size: 12px;
+      margin: 0 0 2px;
+    }
+  }
+
+  // --- Pager ---
+  .pager {
+    display: flex; justify-content: center; align-items: center;
+    gap: 12px; margin: 26px 0 6px;
+
+    .pager-btn {
+      background: $panel;
+      color: $text;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s ease, transform .15s ease;
+
+      &:hover { background: $panel-2; transform: translateY(-2px); }
+      &:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    }
+
+    .pager-info { color: $text-muted; font-size: 13px; }
+  }
+
+  // --- Utility ---
+  .muted { color: $text-muted; }
+  .error { color: #ff6b6b; font-weight: 700; }
+}
+
+// Responsive tweaks (closer to your screenshot spacing)
+@media (min-width: 900px) {
+  .genre-movies-page .movie-grid { gap: 20px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .genre-movies-page .movie-card .movie-poster { height: 280px; }
+}
+
+// Reduced motion (nice-to-have)
+@media (prefers-reduced-motion: reduce) {
+  .genre-movies-page .movie-card,
+  .genre-movies-page .movie-card .movie-poster,
+  .genre-movies-page .pager .pager-btn {
+    transition: none;
+  }
+}
