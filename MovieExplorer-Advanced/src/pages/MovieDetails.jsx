@@ -36,6 +36,10 @@ export default function MovieDetails() {
   // reviews "view more"
   const [showAllReviews, setShowAllReviews] = useState(false);
 
+  // 🔧 yatay scroller ref'leri (Similar & Recs)
+  const simScrollerRef = useRef(null);
+  const recScrollerRef = useRef(null);
+
   useEffect(() => {
     let alive = true;
     setLoading(true);
@@ -109,6 +113,13 @@ export default function MovieDetails() {
 
   // sekme değişince reviews görünümünü resetle
   useEffect(() => { setShowAllReviews(false); }, [tab]);
+
+  // 🔧 programatik yatay scroll helper
+  const scrollRow = (ref, delta) => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollBy({ left: delta, behavior: "smooth" });
+  };
 
   if (loading) return <div className="page-loading">Loading…</div>;
   if (!details) return <div className="page-error">Film bulunamadı.</div>;
@@ -244,24 +255,61 @@ export default function MovieDetails() {
           <section className="more-grids">
             <div>
               <h2>Similar</h2>
-              <div className="card-row">
-                {similar.slice(0, 12).map(m => (
-                  <Link to={`/movie/${m.id}`} key={m.id} className="mini-card">
-                    <img src={m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : noImage} alt={m.title}/>
-                    <span>{m.title}</span>
-                  </Link>
-                ))}
+
+              <div className="card-row-wrap">
+                <div className="card-row" ref={simScrollerRef}>
+                  {similar.slice(0, 12).map(m => (
+                    <Link to={`/movie/${m.id}`} key={m.id} className="mini-card">
+                      <img src={m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : noImage} alt={m.title}/>
+                      <span>{m.title}</span>
+                    </Link>
+                  ))}
+                </div>
+
+                <button
+                  aria-label="Scroll left"
+                  className="row-btn row-btn--left"
+                  onClick={() => scrollRow(simScrollerRef, -Math.max(320, window.innerWidth * 0.8))}
+                >
+                  ‹
+                </button>
+                <button
+                  aria-label="Scroll right"
+                  className="row-btn row-btn--right"
+                  onClick={() => scrollRow(simScrollerRef, Math.max(320, window.innerWidth * 0.8))}
+                >
+                  ›
+                </button>
               </div>
             </div>
+
             <div>
               <h2>Recommendations</h2>
-              <div className="card-row">
-                {recs.slice(0, 12).map(m => (
-                  <Link to={`/movie/${m.id}`} key={m.id} className="mini-card">
-                    <img src={m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : noImage} alt={m.title}/>
-                    <span>{m.title}</span>
-                  </Link>
-                ))}
+
+              <div className="card-row-wrap">
+                <div className="card-row" ref={recScrollerRef}>
+                  {recs.slice(0, 12).map(m => (
+                    <Link to={`/movie/${m.id}`} key={m.id} className="mini-card">
+                      <img src={m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : noImage} alt={m.title}/>
+                      <span>{m.title}</span>
+                    </Link>
+                  ))}
+                </div>
+
+                <button
+                  aria-label="Scroll left"
+                  className="row-btn row-btn--left"
+                  onClick={() => scrollRow(recScrollerRef, -Math.max(320, window.innerWidth * 0.8))}
+                >
+                  ‹
+                </button>
+                <button
+                  aria-label="Scroll right"
+                  className="row-btn row-btn--right"
+                  onClick={() => scrollRow(recScrollerRef, Math.max(320, window.innerWidth * 0.8))}
+                >
+                  ›
+                </button>
               </div>
             </div>
           </section>
@@ -309,7 +357,6 @@ export default function MovieDetails() {
                   <div className="header">
                     <div className="author">
                       <div className="name">{r.author}</div>
-                    
                     </div>
                     <div className="time">{new Date(r.created_at).toLocaleDateString()}</div>
                   </div>
