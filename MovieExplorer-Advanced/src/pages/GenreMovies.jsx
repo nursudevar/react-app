@@ -1,7 +1,8 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import { getMoviesByGenre, getGenres } from "../services/api";
-import "../styles/GenreMovies.scss"
+import "../styles/GenreMovies.scss";
+import MovieCard from "../components/MovieCard"; 
 
 export default function GenreMovies() {
   const { genreId } = useParams();
@@ -13,7 +14,6 @@ export default function GenreMovies() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
 
-  // Breadcrumb için genre adı
   useEffect(() => {
     let ignore = false;
     (async () => {
@@ -28,7 +28,6 @@ export default function GenreMovies() {
     return () => { ignore = true; };
   }, [genreId]);
 
-  // Filmleri çek
   useEffect(() => {
     let ignore = false;
     (async () => {
@@ -68,7 +67,7 @@ export default function GenreMovies() {
 
       <div className="movie-grid">
         {movies.map((m) => (
-          <MovieTile key={m.id} movie={m} />
+          <MovieCard key={m.id} movie={m} />    
         ))}
       </div>
 
@@ -80,23 +79,5 @@ export default function GenreMovies() {
         </div>
       )}
     </section>
-  );
-}
-
-function MovieTile({ movie }) {
-  const poster = useMemo(() => {
-    return movie.poster_path
-      ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-      : "https://placehold.co/342x513?text=No+Image";
-  }, [movie.poster_path]);
-
-  return (
-    <article className="movie-card">
-      <img className="movie-poster" src={poster} alt={movie.title} />
-      <div className="movie-meta">
-        <h3 className="movie-title">{movie.title}</h3>
-        <p className="movie-sub">⭐ {movie.vote_average?.toFixed?.(1) ?? "—"} · {movie.release_date || "—"}</p>
-      </div>
-    </article>
   );
 }

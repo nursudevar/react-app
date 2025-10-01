@@ -1,7 +1,7 @@
 //This file is will be responsible for just for making API callsç. That is why I used js instead of jsx.
 
-const API_KEY="7f9ce10aee35e9519199ab53ea386fa2";
-const BASE_URL="https://api.themoviedb.org/3";
+const API_KEY = "7f9ce10aee35e9519199ab53ea386fa2";
+const BASE_URL = "https://api.themoviedb.org/3";
 
 
 // Async is used for operations that may take time (Fetching data from an API, reading files, etc.)
@@ -9,23 +9,23 @@ const BASE_URL="https://api.themoviedb.org/3";
 //Fetch is used for sending a network request.
 
 
-export const getPopularMovies = async() => {
-    const response = await fetch (`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-    const data = await response.json();
-    return data.results;
+export const getPopularMovies = async () => {
+  const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
 };
 
 
 
-export const searchMovies = async(query) => {
-    const response = await fetch (
-        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
-    );
+export const searchMovies = async (query) => {
+  const response = await fetch(
+    `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
+  );
 
-    const data = await response.json();
-    return data.results;
+  const data = await response.json();
+  return data.results;
 
-}
+};
 
 async function get(endpoint, params = {}) {
   const url = new URL(`${BASE_URL}${endpoint}`);
@@ -48,16 +48,50 @@ async function get(endpoint, params = {}) {
 
 
 export async function getGenres() {
-    const data = await get("/genre/movie/list");
-    return data.genres ?? [];
+  const data = await get("/genre/movie/list");
+  return data.genres ?? [];
 }
 
-export async function getMoviesByGenre (genreId, page=1, sort = "popularity.desc"){
-    const data = await get("/discover/movie", {
-        with_genres: genreId,
-        page,
-        sort_by: sort,
-    });
+export async function getMoviesByGenre(genreId, page = 1, sort = "popularity.desc") {
+  const data = await get("/discover/movie", {
+    with_genres: genreId,
+    page,
+    sort_by: sort,
+  });
 
-    return data.results ?? [];
+  return data.results ?? [];
+}
+
+/* =========================================================
+   Movie Details: gerekli ekler (silmeyip sadece ekledim)
+   ========================================================= */
+
+export async function getMovieDetails(id) {
+  // Full movie details
+  return get(`/movie/${id}`);
+}
+
+export async function getMovieCredits(id) {
+  // { cast: [...], crew: [...] }
+  return get(`/movie/${id}/credits`);
+}
+
+export async function getMovieVideos(id) {
+  // { results: [...] }
+  return get(`/movie/${id}/videos`);
+}
+
+export async function getMovieReviews(id, page = 1) {
+  // { results: [...] }
+  return get(`/movie/${id}/reviews`, { page });
+}
+
+export async function getSimilarMovies(id, page = 1) {
+  // { results: [...] }
+  return get(`/movie/${id}/similar`, { page });
+}
+
+export async function getRecommendations(id, page = 1) {
+  // { results: [...] }
+  return get(`/movie/${id}/recommendations`, { page });
 }

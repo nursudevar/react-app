@@ -1,17 +1,14 @@
-// ---- Tema (dark) ----
-$page-bg: #0f1216;
-$text: #e8eef6;
-$text-muted: #9aa7b5;
-$chip-bg: #151a21;
-$chip-border: rgba(255,255,255,.08);
-
+$accent:    #60a5fa;
+$muted:     #8b97b3;
+$text:      #e6eaf5;
+$surface-2: #1a2134;
 $card-shadow: 0 6px 18px rgba(0,0,0,.35);
 $poster-radius: 16px;
 
 .genres-page {
-  background: $page-bg;
+  background: inherit; 
   min-height: 100vh;
-  padding: 28px 24px;
+  padding: 10px 24px;
 }
 
 .genres-title {
@@ -19,10 +16,9 @@ $poster-radius: 16px;
   font-size: 28px;
   font-weight: 800;
   letter-spacing: .2px;
-  margin-bottom: 14px;
+  margin: 0 0 14px;
 }
 
-/* Üstte: pill'ler */
 .genres-list {
   display: flex;
   flex-wrap: wrap;
@@ -33,25 +29,30 @@ $poster-radius: 16px;
 .genre-pill {
   display: inline-block;
   padding: 8px 14px;
-  border-radius: 999px;
-  background: $chip-bg;
-  border: 1px solid $chip-border;
+  border-radius: 20px;
+  background: $surface-2;
+  border: 0.1px solid rgba($text, .12);
   color: $text;
   text-decoration: none;
-  font-weight: 700;
-  transition: background .15s ease, transform .15s ease;
+  font-weight: 600;
+  transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
 
-  &:hover { background: #1b2230; transform: translateY(-2px); }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px rgba($accent, .35);
+  }
 }
 
-.muted { color: $text-muted; }
+.muted { color: $muted; }
 .error { color: #ff6b6b; font-weight: 700; }
 
-/* ---------- Aşağıdaki satırlar: her genre için yatay slider ---------- */
+.genre-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding-top: 20px;
+}
 
-.genre-rows { display: flex; flex-direction: column; gap: 22px; }
-
-/* Satır başlığı */
 .genre-row {
   position: relative;
 
@@ -68,45 +69,58 @@ $poster-radius: 16px;
   }
 
   .row-view-all {
-    color: $text-muted;
+    color: $muted;
     font-size: 14px;
     text-decoration: none;
     &:hover { color: $text; }
   }
 
-  
-   .row-scroller {
-    display: flex;                 
-    gap: 16px;                     
+  .row-scroller {
+    display: flex;
+    gap: 16px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
     padding-bottom: 6px;
+    padding-top: 10px;     
+    overflow-y: visible;   
+    scrollbar-width: thin;
+    scrollbar-color: rgba($text,.24) transparent;
   }
-  
   .row-scroller::-webkit-scrollbar { height: 8px; }
   .row-scroller::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.12);
+    background: rgba($text,.18);
     border-radius: 999px;
   }
 
-  /* Kart */
-  .thumb-card {
-    scroll-snap-align: start;
-    width: 200px;      // poster genişliği
-    flex: 0 0 auto;
-  }
+  .thumb-card { 
+    scroll-snap-align: start; 
+    width: 200px; 
+    flex: 0 0 auto; 
+    position: relative;           
+    will-change: transform;
+    transition: transform .18s ease, box-shadow .18s ease;
+    
+    @media (min-width: 521px) {
+      &:hover { transform: translateY(-4px); }
+    }
+    @media (max-width: 520px) {
+      &:hover { transform: translateY(-3px); }
+    }
+
+}   
 
   .thumb-poster {
     display: block;
     width: 100%;
-    height: 300px;     // poster yüksekliği
+    height: 300px;
     object-fit: cover;
     border-radius: $poster-radius;
-    background: $chip-bg;
-    border: 1px solid $chip-border;
+    background: $surface-2;
+    border: 1px solid rgba($muted,.08);
     box-shadow: $card-shadow;
 
-    &:hover { box-shadow: 0 0 0 2px #1b2230, $card-shadow; }
+    &:hover { 
+        box-shadow: 0 0 0 0.5px rgba($text,.35), $card-shadow; }
   }
 
   .thumb-title {
@@ -117,14 +131,13 @@ $poster-radius: 16px;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  /* Kaydırma butonları */
   .row-btn {
     position: absolute;
     top: 42%;
     transform: translateY(-50%);
     z-index: 2;
-    border: 1px solid $chip-border;
-    background: rgba(21,26,33,.8);
+    border: 1px solid rgba($text,.06);
+    background: rgba($surface-2, .55); 
     color: $text;
     width: 40px; height: 40px;
     border-radius: 999px;
@@ -134,12 +147,11 @@ $poster-radius: 16px;
     backdrop-filter: blur(4px);
     transition: background .15s ease, transform .15s ease, opacity .15s ease;
 
-    &:hover { background: #1b2230; transform: translateY(-50%) scale(1.05); }
+    &:hover { background: rgba($surface-2, 1); transform: translateY(-50%) scale(1.05); }
   }
-  .row-btn--left  { left: -4px; }
-  .row-btn--right { right: -4px; }
+  .row-btn--left  { left: 10px; }
+  .row-btn--right { right: 10px; }
 
-  /* küçük ekranlarda butonları biraz küçült */
   @media (max-width: 520px) {
     .thumb-card { width: 160px; }
     .thumb-poster { height: 240px; }
@@ -147,8 +159,6 @@ $poster-radius: 16px;
   }
 }
 
-/* motion tercihleri */
 @media (prefers-reduced-motion: reduce) {
-  .genre-row .thumb-poster,
-  .genre-row .row-btn { transition: none; }
+  .genre-row .thumb-poster, .genre-row .row-btn { transition: none; }
 }

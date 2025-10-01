@@ -2,6 +2,8 @@ import { FaRegHeart } from "react-icons/fa";
 import '../styles/MovieCard.scss';
 import { useMovieContext } from "../contexts/MovieContext";
 import noImage from "../images/no-image.svg";
+import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 function MovieCard({movie}){
 
@@ -26,7 +28,7 @@ function MovieCard({movie}){
 
 
     return(
-
+        <Link to={`/movie/${movie.id}`} className="movie-link">
         <div className="movie-card">
             <div className="movie-poster">
                 <img 
@@ -46,14 +48,25 @@ function MovieCard({movie}){
 
             <div className="movie-info">
                 <h3>{movie.title}</h3>
-                <p>{movie.release_date?.split("-")[0]}</p> 
-                {/*we split release date according to - and then just take the stated value in the array. 
-                    Deleted other values into displaying. So we have now just the release year. */}
+                <p className="movie-sub">
+                    <span className="star-badge">  <AiFillStar className="star-icon" /> {movie.vote_average?.toFixed?.(1) ?? "—"}</span>
+                    •
+                    <span className="release-date">{movie.release_date || "—"}</span>
+                </p>
+
             </div>
         </div>
+        </Link>
+        
     )
 }
 
+//The toFfixed part converts the number to a string by fixing the number of decimal places.
+//(1) means, one number after the comma.
+
+//vote_Average? means if vote_average exists and is a number, access the toFixed method.
+
+// ?? means If the expression on the left is undefined (or null), show "—".
 
 
 export default MovieCard;

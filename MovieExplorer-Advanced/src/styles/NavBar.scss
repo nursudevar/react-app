@@ -4,7 +4,9 @@ $muted: #8b97b3;
 $heading: #f5f7ff;
 
 .navbar {
-  position: sticky; top: 0; z-index: 20;
+  position: sticky; 
+  top: 0; 
+  z-index: 20;
   display: flex; align-items: center; gap: 18px;
   padding: 15px 20px;
   background: linear-gradient(180deg, rgba(10,13,24,.9), rgba(10,13,24,.55)), $surface;

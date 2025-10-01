@@ -2,11 +2,30 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { getGenres, getMoviesByGenre } from "../services/api";
 import "../styles/genres.scss";
+import MovieCard from "../components/MovieCard"; 
+
+
+
+//The Genres component is only responsible from pulling the Genre List from the API and display it.
+
+//We define the loading and error states separately in both functions, even though they are located on the same page.
+//This is because the loading and error states we defined in the genre function are valid for that genre list.
+//Likewise, the states we define in the genre row are only valid for that row.
+
+//If we only write one loading or error state, one line of error would effect whole page.
+
+
+
 
 export default function Genres() {
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
+
+
+  //"ignore" is a safety flag to prevent updating state after the component has been removed from the screen.
+  //It is useful for, when the user changes the page quickly. We can think of it as not keeping the line busy.
+
 
   useEffect(() => {
     let ignore = false;
@@ -47,7 +66,6 @@ export default function Genres() {
     <section className="genres-page">
       <h2 className="genres-title">Movie Genres</h2>
 
-      {/* Üstte: kategori pill'leri */}
       <div className="genres-list">
         {genres.map((g) => (
           <Link key={g.id} to={`/genre/${g.id}`} className="genre-pill">
@@ -56,26 +74,28 @@ export default function Genres() {
         ))}
       </div>
 
-      {/* Altta: her genre için yatay slider */}
       <div className="genre-rows">
         {genres.map((g) => (
           <GenreRow key={g.id} genre={g} />
         ))}
       </div>
     </section>
+      //We take rows separate because each row is different from each other in case of genres, loading force and errors. 
+
   );
 }
 
-/* ------------------------ alt bileşenler ------------------------ */
+
+//The GenreRow component is responsible from displaying the films from a single genre.
+
 
 function GenreRow({ genre }) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  const anchorRef = useRef(null);     // görünürlüğü takip için
-  const scrollerRef = useRef(null);   // yatay kaydırıcı
+  const anchorRef = useRef(null);
+  const scrollerRef = useRef(null);
 
-  // Lazy-load: satır görünür olunca 1 kez yükle
   useEffect(() => {
     let loaded = false;
     const el = anchorRef.current;
@@ -124,12 +144,9 @@ function GenreRow({ genre }) {
         {loading && <div className="row-loading muted">Loading…</div>}
         {err && <div className="row-error">Error: {err}</div>}
 
-        {!loading &&
-          !err &&
-          movies.map((m) => <MovieThumb key={m.id} movie={m} />)}
+        {!loading && !err && movies.map((m) => <MovieThumb key={m.id} movie={m} />)}
       </div>
 
-      {/* kaydırma butonları */}
       <button
         aria-label="Scroll left"
         className="row-btn row-btn--left"
@@ -149,14 +166,9 @@ function GenreRow({ genre }) {
 }
 
 function MovieThumb({ movie }) {
-  const poster = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-    : "https://placehold.co/342x513?text=No+Image";
-
   return (
     <article className="thumb-card">
-      <img className="thumb-poster" src={poster} alt={movie.title} />
-      <h4 className="thumb-title">{movie.title}</h4>
+      <MovieCard movie={movie} />
     </article>
   );
 }
