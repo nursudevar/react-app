@@ -69,9 +69,13 @@ export default function Genres() {
   }
 
   return (
+
+    //map performs an operation on each element of an array and returns a new array.
+    //It is most commonly used for rendering lists.
+    //It is frequently used to display data received from an API.
+
     <section className="genres-page">
       <h2 className="genres-title">Movie Genres</h2>
-
 
       <div className="genres-list">
         {genres.map((g) => (
@@ -100,19 +104,24 @@ function GenreRow({ genre }) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  const anchorRef = useRef(null);
+  const anchorRef = useRef(null);  
   const scrollerRef = useRef(null);
 
+  //useRef creates an unchanging reference. (Değişmeyen referans) This reference is used to store a DOM element or any value.
+  //We use it to reach that element. => <div ref={anchorRef}></div>
+
   useEffect(() => {
-    let loaded = false;
+    let loaded = false; //loaded === false means component is still active → state can be updated.
     const el = anchorRef.current;
     if (!el) return;
 
+
+    //In this code block, a scroll-based data loading (lazy loading / prefetch) mechanism is established at the browser level.
     const obs = new IntersectionObserver(
       async ([entry]) => {
-        if (entry.isIntersecting && !loaded) {
-          loaded = true;
-          obs.disconnect();
+        if (entry.isIntersecting && !loaded) { // If it has entered the screen and has not been loaded before
+          loaded = true;                       // Don't trigger it again
+          obs.disconnect();                    // Close Observer (to boost performance)
           try {
             setLoading(true);
             setErr("");
@@ -125,15 +134,16 @@ function GenreRow({ genre }) {
           }
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" } //We say trigger 200 pixels before the element enters the visible area
+      //This is done to ensure smoother and earlier loading.
     );
 
     obs.observe(el);
-    return () => obs.disconnect();
-  }, [genre.id]);
+    return () => obs.disconnect(); // Cleanup: close observer while component is being removed
+  }, [genre.id]); // If the type ID changes, this line is rebuilt.
 
-  const scrollBy = (delta) => {
-    const el = scrollerRef.current;
+  const scrollBy = (delta) => { // delta: left/right shift in pixels
+    const el = scrollerRef.current; //Get the scroll container, exit if there is no ref, else scroll.
     if (!el) return;
     el.scrollBy({ left: delta, behavior: "smooth" });
   };

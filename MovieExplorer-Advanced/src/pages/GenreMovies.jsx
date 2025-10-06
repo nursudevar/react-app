@@ -19,7 +19,7 @@ export default function GenreMovies() {
     (async () => {
       try {
         const list = await getGenres();
-        const found = list.find((g) => String(g.id) === String(genreId));
+        const found = list.find((g) => String(g.id) === String(genreId));  //// Find the genre that is the same as the genreId in the parameter (String comparison to avoid type inequality).
         if (!ignore) setGenreName(found?.name || "Genre");
       } catch {
         if (!ignore) setGenreName("Genre");
@@ -34,6 +34,8 @@ export default function GenreMovies() {
       try {
         setLoading(true);
         setErr("");
+
+        // Get the movie list with the selected genre + page + sorting.
         const results = await getMoviesByGenre(genreId, pageParam, "popularity.desc");
         if (ignore) return;
         setMovies(results || []);
@@ -43,7 +45,7 @@ export default function GenreMovies() {
         if (!ignore) setLoading(false);
       }
     })();
-    return () => { ignore = true; };
+    return () => { ignore = true; };   // Cleanup.
   }, [genreId, pageParam]);
 
   const handlePage = (delta) => {
