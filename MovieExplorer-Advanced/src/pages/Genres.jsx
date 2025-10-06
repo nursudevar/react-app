@@ -23,9 +23,11 @@ export default function Genres() {
   const [err, setErr] = useState("");
 
 
-  //"ignore" is a safety flag to prevent updating state after the component has been removed from the screen.
-  //It is useful for, when the user changes the page quickly. We can think of it as not keeping the line busy.
 
+  //In the first render, we pull genre list. 
+
+  //Ignore is useful for when the user changes the page quickly. We can think of it as not keeping the line busy.
+  //It is a safety flag to prevent updating state after the component has been removed from the screen.
 
   useEffect(() => {
     let ignore = false;
@@ -33,17 +35,19 @@ export default function Genres() {
       try {
         setLoading(true);
         setErr("");
-        const data = await getGenres();
-        if (!ignore) setGenres(data);
+        const data = await getGenres(); //Pull genre list from the API.
+        if (!ignore) setGenres(data); //Update state.
       } catch (e) {
         if (!ignore) setErr(e.message || "Failed to fetch genres.");
       } finally {
         if (!ignore) setLoading(false);
       }
     })();
-    return () => { ignore = true; };
+    return () => { ignore = true; };  //When component unmounts(disappear), set ignore=true so no updates happen afterwards
   }, []);
 
+
+  //Display these when the page is loading.
   if (loading) {
     return (
       <section className="genres-page">
@@ -52,6 +56,8 @@ export default function Genres() {
       </section>
     );
   }
+
+  //Display these if there is an error.
 
   if (err) {
     return (
@@ -65,6 +71,7 @@ export default function Genres() {
   return (
     <section className="genres-page">
       <h2 className="genres-title">Movie Genres</h2>
+
 
       <div className="genres-list">
         {genres.map((g) => (
